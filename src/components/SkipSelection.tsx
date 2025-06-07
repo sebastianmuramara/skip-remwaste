@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, Truck, Calendar, PoundSterling, Shield, CheckCircle, Info } from 'lucide-react';
+import { ChevronRight, Truck, Calendar, PoundSterling, Shield, CheckCircle, Info, X } from 'lucide-react';
 
 interface Skip {
   id: number;
@@ -218,6 +218,12 @@ function SkipCard({ skip, isSelected, onSelect }: {
 }
 
 export default function SkipSelection({ selectedSkipId, onSkipSelect }: SkipSelectionProps) {
+  const handleCancelSelection = () => {
+    if (selectedSkipId) {
+      onSkipSelect(selectedSkipId); // This will toggle the selection off
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">
       {/* Enhanced Page Header */}
@@ -276,6 +282,14 @@ export default function SkipSelection({ selectedSkipId, onSkipSelect }: SkipSele
                     <p className="text-sm text-gray-600">Ready to proceed with your booking</p>
                   </div>
                 </div>
+                {/* Cancel Button */}
+                <button
+                  onClick={handleCancelSelection}
+                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200"
+                  title="Cancel selection"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
               
               <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-4">
@@ -308,13 +322,22 @@ export default function SkipSelection({ selectedSkipId, onSkipSelect }: SkipSele
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-between">
-                <button
-                  onClick={() => window.history.back()}
-                  className="px-8 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-800 font-semibold rounded-xl hover:from-gray-300 hover:to-gray-400 transition-all duration-200 flex items-center justify-center gap-2"
-                >
-                  <ChevronRight className="w-4 h-4 rotate-180" />
-                  Back
-                </button>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => window.history.back()}
+                    className="px-6 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-800 font-semibold rounded-xl hover:from-gray-300 hover:to-gray-400 transition-all duration-200 flex items-center justify-center gap-2"
+                  >
+                    <ChevronRight className="w-4 h-4 rotate-180" />
+                    Back
+                  </button>
+                  <button
+                    onClick={handleCancelSelection}
+                    className="px-6 py-3 bg-gradient-to-r from-red-100 to-red-200 text-red-700 font-semibold rounded-xl hover:from-red-200 hover:to-red-300 transition-all duration-200 flex items-center justify-center gap-2 border border-red-300"
+                  >
+                    <X className="w-4 h-4" />
+                    Cancel Selection
+                  </button>
+                </div>
                 <button
                   onClick={() => window.location.href = '/next-page'}
                   className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"

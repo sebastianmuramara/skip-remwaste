@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, Truck, Calendar, PoundSterling } from 'lucide-react';
+import { ChevronRight, Truck, Calendar, PoundSterling, Shield, CheckCircle, Info } from 'lucide-react';
 
 interface Skip {
   id: number;
@@ -80,95 +80,137 @@ function SkipCard({ skip, isSelected, onSelect }: {
 }) {
   const totalPrice = Math.round(skip.price_before_vat * (1 + skip.vat / 100));
 
+  const getSkipDescription = (size: number) => {
+    switch (size) {
+      case 4: return 'Ideal for small home projects and garden clearances';
+      case 6: return 'Perfect for bathroom renovations and small extensions';
+      case 8: return 'Great for kitchen renovations and medium projects';
+      case 12: return 'Suitable for large home renovations and construction';
+      case 16: return 'Perfect for major construction and commercial projects';
+      case 20: return 'Ideal for large-scale construction and industrial use';
+      default: return 'Perfect for your waste management needs';
+    }
+  };
+
   return (
     <div 
-      className={`bg-white rounded-xl shadow-lg border-2 cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
-        isSelected ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200 hover:border-gray-300'
+      className={`group bg-white rounded-2xl shadow-lg border-2 cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${
+        isSelected 
+          ? 'border-blue-500 ring-4 ring-blue-100 shadow-blue-100' 
+          : 'border-gray-200 hover:border-blue-300'
       }`}
       onClick={() => onSelect(skip.id)}
     >
-      {/* Skip Image */}
-      <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 rounded-t-xl flex items-center justify-center relative overflow-hidden">
-        <div className="text-center">
-          {/* Simple skip representation */}
+      {/* Skip Image with Enhanced Visual */}
+      <div className="h-52 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 rounded-t-2xl flex items-center justify-center relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 transform rotate-12 scale-150"></div>
+        </div>
+        
+        <div className="text-center relative z-10">
+          {/* Enhanced skip representation */}
           <div 
-            className={`mx-auto bg-orange-500 rounded-t-lg shadow-lg relative ${
-              skip.size <= 6 ? 'w-20 h-12' : skip.size <= 12 ? 'w-24 h-14' : 'w-28 h-16'
+            className={`mx-auto bg-gradient-to-b from-orange-400 to-orange-600 rounded-t-xl shadow-2xl relative transform transition-transform group-hover:scale-110 ${
+              skip.size <= 6 ? 'w-24 h-14' : skip.size <= 12 ? 'w-28 h-16' : 'w-32 h-18'
             }`}
           >
-            <div className="absolute inset-x-0 bottom-0 h-1 bg-orange-600 rounded-b-lg"></div>
-            <div className="absolute top-1 left-1 right-1 h-1 bg-orange-400 rounded"></div>
+            <div className="absolute inset-x-0 bottom-0 h-2 bg-orange-700 rounded-b-xl"></div>
+            <div className="absolute top-2 left-2 right-2 h-1 bg-orange-300 rounded"></div>
+            <div className="absolute top-4 left-3 right-3 h-0.5 bg-orange-300 rounded"></div>
+            {/* Side handles */}
+            <div className="absolute -left-1 top-2 w-2 h-4 bg-gray-600 rounded-l"></div>
+            <div className="absolute -right-1 top-2 w-2 h-4 bg-gray-600 rounded-r"></div>
           </div>
-          <div className={`mx-auto mt-1 bg-gray-600 rounded ${
-            skip.size <= 6 ? 'w-24 h-2' : skip.size <= 12 ? 'w-28 h-2' : 'w-32 h-3'
+          <div className={`mx-auto mt-2 bg-gradient-to-r from-gray-600 to-gray-700 rounded-lg shadow-lg ${
+            skip.size <= 6 ? 'w-28 h-3' : skip.size <= 12 ? 'w-32 h-3' : 'w-36 h-4'
           }`}></div>
         </div>
         
-        {/* Size badge */}
-        <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full font-bold text-sm">
+        {/* Enhanced size badge */}
+        <div className="absolute top-4 right-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
           {skip.size} Yard
         </div>
+
+        {/* Popular badge for mid-range skips */}
+        {(skip.size === 6 || skip.size === 8) && (
+          <div className="absolute top-4 left-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1 rounded-full font-semibold text-xs shadow-lg">
+            Popular
+          </div>
+        )}
       </div>
 
-      {/* Card Content */}
+      {/* Enhanced Card Content */}
       <div className="p-6">
-        <div className="mb-4">
-          <h3 className="text-xl font-bold text-gray-900 mb-2">{skip.size} Yard Skip</h3>
-          <p className="text-gray-600 text-sm">Perfect for medium-sized projects and home clearances</p>
+        <div className="mb-5">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">{skip.size} Yard Skip</h3>
+          <p className="text-gray-600 text-sm leading-relaxed">{getSkipDescription(skip.size)}</p>
         </div>
 
-        {/* Details */}
-        <div className="space-y-3 mb-6">
-          <div className="flex items-center text-gray-700">
-            <Calendar className="w-4 h-4 mr-2 text-blue-500" />
-            <span className="text-sm">{skip.hire_period_days} day hire period</span>
+        {/* Enhanced Details with better icons */}
+        <div className="space-y-4 mb-6">
+          <div className="flex items-center text-gray-700 bg-blue-50 p-3 rounded-lg">
+            <Calendar className="w-5 h-5 mr-3 text-blue-600" />
+            <span className="text-sm font-medium">{skip.hire_period_days} day hire period</span>
           </div>
           
-          <div className="flex items-center text-gray-700">
-            <Truck className="w-4 h-4 mr-2 text-green-500" />
-            <span className="text-sm">
-              {skip.allowed_on_road ? 'Road placement allowed' : 'Private land only'}
+          <div className={`flex items-center text-gray-700 p-3 rounded-lg ${
+            skip.allowed_on_road ? 'bg-green-50' : 'bg-amber-50'
+          }`}>
+            <Truck className={`w-5 h-5 mr-3 ${skip.allowed_on_road ? 'text-green-600' : 'text-amber-600'}`} />
+            <span className="text-sm font-medium">
+              {skip.allowed_on_road ? 'Road placement allowed' : 'Private land placement only'}
             </span>
           </div>
 
           {skip.allows_heavy_waste && (
-            <div className="flex items-center text-gray-700">
-              <div className="w-4 h-4 mr-2 bg-purple-500 rounded-full flex items-center justify-center">
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-              </div>
-              <span className="text-sm">Heavy waste accepted</span>
+            <div className="flex items-center text-gray-700 bg-purple-50 p-3 rounded-lg">
+              <Shield className="w-5 h-5 mr-3 text-purple-600" />
+              <span className="text-sm font-medium">Heavy waste accepted</span>
             </div>
           )}
         </div>
 
-        {/* Pricing */}
-        <div className="mb-6">
-          <div className="flex items-baseline gap-2 mb-1">
-            <PoundSterling className="w-5 h-5 text-green-600" />
-            <span className="text-2xl font-bold text-gray-900">{skip.price_before_vat}</span>
-            <span className="text-sm text-gray-500">before VAT</span>
+        {/* Enhanced Pricing */}
+        <div className="mb-6 bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-xl">
+          <div className="flex items-baseline gap-2 mb-2">
+            <PoundSterling className="w-6 h-6 text-green-600" />
+            <span className="text-3xl font-bold text-gray-900">{skip.price_before_vat}</span>
+            <span className="text-sm text-gray-500 font-medium">before VAT</span>
           </div>
-          <p className="text-sm text-gray-600">
-            £{totalPrice} inc. VAT ({skip.vat}%)
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-lg font-semibold text-green-700">
+              £{totalPrice} inc. VAT ({skip.vat}%)
+            </p>
+            <div className="text-xs text-gray-500 bg-white px-2 py-1 rounded">
+              All inclusive
+            </div>
+          </div>
         </div>
 
-        {/* Select Button */}
+        {/* Enhanced Select Button */}
         <button
-          className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
+          className={`w-full py-4 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-3 text-lg ${
             isSelected
-              ? 'bg-blue-500 text-white hover:bg-blue-600'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300'
+              ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 shadow-lg'
+              : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 border-2 border-gray-300 hover:border-gray-400'
           }`}
           onClick={(e) => {
             e.stopPropagation();
             onSelect(skip.id);
           }}
         >
-          {isSelected ? 'Selected' : 'Select this skip'}
-          <ChevronRight className={`w-4 h-4 transition-transform ${
-            isSelected ? 'rotate-90' : ''
-          }`} />
+          {isSelected ? (
+            <>
+              <CheckCircle className="w-5 h-5" />
+              Selected
+            </>
+          ) : (
+            <>
+              Select this skip
+              <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </>
+          )}
         </button>
       </div>
     </div>
@@ -177,22 +219,29 @@ function SkipCard({ skip, isSelected, onSelect }: {
 
 export default function SkipSelection({ selectedSkipId, onSkipSelect }: SkipSelectionProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Page Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">
+      {/* Enhanced Page Header */}
+      <div className="bg-white shadow-lg border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Choose Your Skip Size</h1>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Select the perfect skip for your waste management needs. All prices include delivery and collection within our service area.
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-4">
+              <Truck className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-3">Choose Your Perfect Skip</h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Select the ideal skip size for your project. All prices include delivery, collection, and disposal within our service area.
             </p>
+            <div className="mt-6 inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+              <Info className="w-4 h-4" />
+              Free delivery & collection included
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Skip Cards Grid */}
+      {/* Enhanced Skip Cards Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {skipData.map((skip) => (
             <SkipCard
               key={skip.id}
@@ -203,36 +252,81 @@ export default function SkipSelection({ selectedSkipId, onSkipSelect }: SkipSele
           ))}
         </div>
 
-        {/* Selected Skip Summary */}
-        {selectedSkipId && (
-          <div className="mt-12 bg-white rounded-xl shadow-lg border border-blue-200 p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Your Selection</h3>
-            {(() => {
-              const selectedSkip = skipData.find(skip => skip.id === selectedSkipId);
-              if (!selectedSkip) return null;
-              
-              const totalPrice = Math.round(selectedSkip.price_before_vat * (1 + selectedSkip.vat / 100));
-              
-              return (
-                <div className="flex items-center justify-between">
+        {/* Add bottom padding when selection is active */}
+        {selectedSkipId && <div className="h-48"></div>}
+      </div>
+
+      {/* Enhanced Selected Skip Summary - Fixed Bottom Bar */}
+      {selectedSkipId && (() => {
+        const selectedSkip = skipData.find(skip => skip.id === selectedSkipId);
+        if (!selectedSkip) return null;
+
+        const totalPrice = Math.round(selectedSkip.price_before_vat * (1 + selectedSkip.vat / 100));
+
+        return (
+          <div className="fixed bottom-0 left-0 w-full bg-white border-t-2 border-blue-200 shadow-2xl z-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                    <CheckCircle className="w-6 h-6 text-white" />
+                  </div>
                   <div>
-                    <p className="text-lg font-semibold text-gray-900">
+                    <h3 className="text-xl font-bold text-gray-900">Your Selection</h3>
+                    <p className="text-sm text-gray-600">Ready to proceed with your booking</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-4">
+                <p className="text-sm text-gray-700 flex items-start gap-2">
+                  <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                  Imagery and information shown throughout this website may not reflect the exact shape or size specification,
+                  colours may vary, options and/or accessories may be featured at additional cost.
+                </p>
+              </div>
+              
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-10 bg-gradient-to-b from-orange-400 to-orange-600 rounded-t-lg relative">
+                    <div className="absolute inset-x-0 bottom-0 h-1 bg-orange-700 rounded-b-lg"></div>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-gray-900">
                       {selectedSkip.size} Yard Skip
                     </p>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 flex items-center gap-2">
+                      <Calendar className="w-4 h-4" />
                       {selectedSkip.hire_period_days} day hire period
                     </p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-2xl font-bold text-green-600">£{totalPrice}</p>
-                    <p className="text-sm text-gray-500">inc. VAT</p>
-                  </div>
                 </div>
-              );
-            })()}
+                <div className="text-right">
+                  <p className="text-3xl font-bold text-green-600">£{totalPrice}</p>
+                  <p className="text-sm text-gray-500 font-medium">inc. VAT</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-between">
+                <button
+                  onClick={() => window.history.back()}
+                  className="px-8 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-800 font-semibold rounded-xl hover:from-gray-300 hover:to-gray-400 transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  <ChevronRight className="w-4 h-4 rotate-180" />
+                  Back
+                </button>
+                <button
+                  onClick={() => window.location.href = '/next-page'}
+                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"
+                >
+                  Continue to Next Step
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
+        );
+      })()}
     </div>
   );
 }
